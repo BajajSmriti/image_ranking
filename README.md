@@ -1,1 +1,1 @@
-# image_ranking
+# Unsupervised Image Ranking
