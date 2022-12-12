@@ -35,7 +35,6 @@ def calculate_distances(image_test, clusters, centroids):
 
     # cluster index that represents the min distance with the test vector
     min_cluster = list(distance).index(np.min(distance))
-
     df_vectors = df_vectors[df_vectors["cluster"] == min_cluster]
 
     distance = np.linalg.norm(np.array(df_vectors[df_vectors.columns[0:4096]]) - test_vector, axis=1)
@@ -43,14 +42,6 @@ def calculate_distances(image_test, clusters, centroids):
     df_vectors['rank'] = df_vectors['distance'].rank(ascending=1)
     df_vectors = df_vectors.set_index('rank')
     df_vectors = df_vectors.sort_index()
-
-    # df_vect = df_vectors[df_vectors["cluster"] == min_cluster]
-
-    # distance = np.linalg.norm(np.array(df_vect[df_vect.columns[0:4096]]) - search_vector, axis=1)
-    # df_vect['distance'] = pd.Series(distance, index=df_vect.index)
-    # df_vect['rank'] = df_vect['distance'].rank(ascending=1)
-    # df_vect = df_vect.set_index('rank')
-    # df_vect = df_vect.sort_index()
 
     result = df_vectors[0:100]
     cat = result['Path'].iloc[0].split("\\")[1]
