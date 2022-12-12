@@ -1,0 +1,446 @@
+---
+title: "Untitled"
+author: "Tim Cauley"
+date: '2022-11-24'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(photosearcher)
+library(dplyr)
+```
+
+Coast images
+
+```{r}
+coast <- photo_search(
+  mindate_taken = "2018-01-01",
+  maxdate_taken = "2018-06-01",
+  text = "coast"
+)  
+```
+
+```{r}
+downloaded_coast <- download_images(photo_id = coast$id[1:1000], 
+                                    save_dir = "/Users/Tim/UML Project Data/coast",
+                                    max_image_height = 1200,
+                                    max_image_width = 1200) ## got 339 usable, 104 not usable
+```
+```{r}
+downloaded_coast2 <- download_images(photo_id = coast$id[1001:1500], 
+                                    save_dir = "/Users/Tim/UML Project Data/coast",
+                                    max_image_height = 1200,
+                                    max_image_width = 1200) ## 172 usable, 82 not usable
+## now have 511 total, deleting 11
+```
+
+
+Cleaning coast metadata 
+
+```{r}
+library(dplyr)
+downloaded_coast <- downloaded_coast %>%  filter(downloaded == "Yes: downloaded") %>% select(id)
+```
+
+```{r}
+downloaded_coast2 <- downloaded_coast2 %>%  filter(downloaded == "Yes: downloaded") %>% select(id)
+```
+
+```{r}
+coast_ids <- rbind(downloaded_coast, downloaded_coast2)
+```
+
+```{r}
+coast_meta <- coast %>%  inner_join(coast_ids, by = c("id" = "id"))
+```
+
+
+Flower images
+
+```{r}
+flower <- photo_search(
+  mindate_taken = "2018-01-01",
+  maxdate_taken = "2018-06-01",
+  text = "flower"
+)  
+```
+
+```{r}
+downloaded_flower <- download_images(photo_id = flower$id[1:1500], 
+                                    save_dir = "/Users/Tim/UML Project Data/flower",
+                                    max_image_height = 1200,
+                                    max_image_width = 1200) ## got 825, mostly usable, picked 500
+```
+
+```{r}
+downloaded_flower <- downloaded_flower %>%  filter(downloaded == "Yes: downloaded") %>% select(id)
+```
+
+```{r}
+flower_meta <- flower %>%  inner_join(downloaded_flower, by = c("id" = "id"))
+```
+
+Butterfly images
+
+```{r}
+butterfly <- photo_search(
+  mindate_taken = "2018-04-01",
+  maxdate_taken = "2018-06-01",
+  text = "butterfly"
+)  
+```
+
+```{r}
+downloaded_butterfly <- download_images(photo_id = butterfly$id[1:1000], 
+                                    save_dir = "/Users/Tim/UML Project Data/butterfly",
+                                    max_image_height = 1200,
+                                    max_image_width = 1200) ## stopped, butterfly images too similar to flowers
+## most are just pics of flowers, no butterfly. Will use better keyword
+```
+
+City skyline images
+
+```{r}
+city <- photo_search(
+  mindate_taken = "2018-04-01",
+  maxdate_taken = "2018-06-01",
+  text = "skyline"
+)  
+```
+
+```{r}
+downloaded_city <- download_images(photo_id = city$id[1:1500], 
+                                    save_dir = "/Users/Tim/UML Project Data/skyline",
+                                    max_image_height = 1200,
+                                    max_image_width = 1200) ## 561 usable, 112 not usable, deleted 61
+```
+
+```{r}
+downloaded_city <- downloaded_city %>%  filter(downloaded == "Yes: downloaded") %>% select(id)
+```
+
+```{r}
+city_meta <- city %>%  inner_join(downloaded_city, by = c("id" = "id"))
+```
+
+Canyon
+
+```{r}
+canyon <- photo_search(
+  mindate_taken = "2018-05-01",
+  maxdate_taken = "2018-07-01",
+  text = "canyon"
+)  
+```
+
+```{r}
+downloaded_canyon <- download_images(photo_id = canyon$id[1:1500], 
+                                    save_dir = "/Users/Tim/UML Project Data/canyon",
+                                    max_image_height = 1200,
+                                    max_image_width = 1200) ## 953, mainly usable, chose 500
+```
+
+```{r}
+downloaded_canyon <- downloaded_canyon %>%  filter(downloaded == "Yes: downloaded") %>% select(id)
+```
+
+```{r}
+canyon_meta <- canyon %>%  inner_join(downloaded_canyon, by = c("id" = "id"))
+```
+
+Plane images
+
+```{r}
+plane <- photo_search(
+  mindate_taken = "2018-05-01",
+  maxdate_taken = "2018-05-31",
+  text = "plane"
+)  
+```
+
+```{r}
+downloaded_plane <- download_images(photo_id = plane$id[1:1500], 
+                                    save_dir = "/Users/Tim/UML Project Data/plane",
+                                    max_image_height = 1200,
+                                    max_image_width = 1200) ## 866, mostly good, chose 500
+```
+
+```{r}
+downloaded_plane <- downloaded_plane %>%  filter(downloaded == "Yes: downloaded") %>% select(id)
+```
+
+```{r}
+plane_meta <- plane %>%  inner_join(downloaded_plane, by = c("id" = "id")) 
+```
+
+
+Combining metadata
+
+```{r}
+tim_pics_metadata <- rbind(coast_meta, flower_meta)
+tim_pics_metadata <- rbind(tim_pics_metadata, city_meta)
+tim_pics_metadata <- rbind(tim_pics_metadata, canyon_meta)
+tim_pics_metadata <- rbind(tim_pics_metadata, plane_meta)
+```
+
+```{r}
+write.csv(tim_pics_metadata,"/Users/Tim/UML Project Data/tim_pics_metadata.csv", row.names = FALSE)
+
+```
+
+Horse
+
+```{r}
+horse <- photo_search(
+  mindate_taken = "2018-04-01",
+  maxdate_taken = "2018-07-01",
+  text = "horse"
+)  
+```
+
+```{r}
+downloaded_horse <- download_images(photo_id = horse$id[1:2000], 
+                                    save_dir = "/Users/Tim/UML Project Data/horse",
+                                    max_image_height = 1200,
+                                    max_image_width = 1200) 
+```
+
+
+```{r}
+downloaded_horse <- downloaded_horse %>%  filter(downloaded == "Yes: downloaded") %>% select(id)
+```
+
+```{r}
+horse_meta <- horse %>%  inner_join(downloaded_horse, by = c("id" = "id")) 
+```
+
+Sunset
+
+```{r}
+sunset <- photo_search(
+  mindate_taken = "2017-05-01",
+  maxdate_taken = "2017-07-01",
+  text = "sunset"
+)  
+```
+
+```{r}
+downloaded_sunset <- download_images(photo_id = sunset$id[1:2000], 
+                                    save_dir = "/Users/Tim/UML Project Data/sunset",
+                                    max_image_height = 1200,
+                                    max_image_width = 1200) 
+```
+
+```{r}
+downloaded_sunset <- downloaded_sunset %>%  filter(downloaded == "Yes: downloaded") %>% select(id)
+```
+
+```{r}
+sunset_meta <- sunset %>%  inner_join(downloaded_sunset, by = c("id" = "id")) 
+```
+
+Fish
+
+```{r}
+fish <- photo_search(
+  mindate_taken = "2017-01-01",
+  maxdate_taken = "2018-01-01",
+  text = "fish",
+  tags = c("fish", "aquarium"),
+  tags_any = FALSE 
+)  
+```
+
+```{r}
+downloaded_fish <- download_images(photo_id = fish$id[1:1600], 
+                                    save_dir = "/Users/Tim/UML Project Data/fish",
+                                    max_image_height = 1200,
+                                    max_image_width = 1200) ## 309 usable
+```
+
+```{r}
+downloaded_fish <- downloaded_fish %>%  filter(downloaded == "Yes: downloaded") %>% select(id)
+```
+
+```{r}
+fish_meta1 <- fish %>%  inner_join(downloaded_fish, by = c("id" = "id")) 
+```
+
+
+```{r}
+fish2 <- photo_search(
+  mindate_taken = "2016-01-01",
+  maxdate_taken = "2017-01-01",
+  text = "fish",
+  tags = c("fish", "aquarium"),
+  tags_any = FALSE 
+)  
+```
+
+```{r}
+downloaded_fish2 <- download_images(photo_id = fish2$id[1:1300], 
+                                    save_dir = "/Users/Tim/UML Project Data/fish2",
+                                    max_image_height = 1200,
+                                    max_image_width = 1200) ## up to 454
+```
+
+```{r}
+downloaded_fish2 <- downloaded_fish2 %>%  filter(downloaded == "Yes: downloaded") %>% select(id)
+```
+
+```{r}
+fish_meta2 <- fish2 %>%  inner_join(downloaded_fish2, by = c("id" = "id")) 
+```
+
+```{r}
+fish3 <- photo_search(
+  mindate_taken = "2018-01-02",
+  maxdate_taken = "2019-01-01",
+  text = "fish",
+  tags = c("fish", "aquarium"),
+  tags_any = FALSE 
+)  
+```
+
+```{r}
+downloaded_fish3 <- download_images(photo_id = fish3$id[1:1000], 
+                                    save_dir = "/Users/Tim/UML Project Data/fish2",
+                                    max_image_height = 1200,
+                                    max_image_width = 1200) 
+```
+
+```{r}
+downloaded_fish3 <- downloaded_fish3 %>%  filter(downloaded == "Yes: downloaded") %>% select(id)
+```
+
+```{r}
+fish_meta3 <- fish3 %>%  inner_join(downloaded_fish3, by = c("id" = "id")) 
+```
+
+
+Yosemite
+
+```{r}
+yosemite <- photo_search(
+  mindate_taken = "2017-01-01",
+  maxdate_taken = "2018-01-01",
+  text = "yosemite",
+  tags = c("yosemitenationalpark")
+)  
+```
+
+```{r}
+downloaded_yosemite <- download_images(photo_id = yosemite$id[1:1100], 
+                                    save_dir = "/Users/Tim/UML Project Data/yosemite",
+                                    max_image_height = 1200,
+                                    max_image_width = 1200) ## only got 280 total
+```
+
+```{r}
+downloaded_yosemite2 <- download_images(photo_id = yosemite$id[1101:2444], 
+                                    save_dir = "/Users/Tim/UML Project Data/yosemite",
+                                    max_image_height = 1200,
+                                    max_image_width = 1200) 
+```
+
+```{r}
+downloaded_yosemite <- downloaded_yosemite %>%  filter(downloaded == "Yes: downloaded") %>% select(id)
+
+downloaded_yosemite2 <- downloaded_yosemite2 %>%  filter(downloaded == "Yes: downloaded") %>% select(id)
+
+```
+
+```{r}
+yostmite_meta1 <- yosemite %>%  inner_join(downloaded_yosemite, by = c("id" = "id")) 
+yostmite_meta2 <- yosemite %>%  inner_join(downloaded_yosemite2, by = c("id" = "id")) 
+```
+
+
+Castle
+
+```{r}
+castle <- photo_search(
+  mindate_taken = "2017-06-01",
+  maxdate_taken = "2018-01-01",
+  text = "castle",
+  tags = c("castle")
+)  
+```
+
+```{r}
+downloaded_castle <- download_images(photo_id = castle$id[0:2000], 
+                                    save_dir = "/Users/Tim/UML Project Data/castle",
+                                    max_image_height = 1200,
+                                    max_image_width = 1200) ## 262 usable
+```
+
+```{r}
+downloaded_castle2 <- download_images(photo_id = castle$id[2001:3500], 
+                                    save_dir = "/Users/Tim/UML Project Data/castle2",
+                                    max_image_height = 1200,
+                                    max_image_width = 1200) ## up to 473, need 27 more
+```
+
+```{r}
+downloaded_castle3 <- download_images(photo_id = castle$id[3501:4000], 
+                                    save_dir = "/Users/Tim/UML Project Data/castle2",
+                                    max_image_height = 1200,
+                                    max_image_width = 1200) ## more than enough, 500 total
+```
+
+```{r}
+downloaded_castle <- downloaded_castle %>%  filter(downloaded == "Yes: downloaded") %>% select(id)
+
+downloaded_castle2 <- downloaded_castle2 %>%  filter(downloaded == "Yes: downloaded") %>% select(id)
+
+downloaded_castle3 <- downloaded_castle3 %>%  filter(downloaded == "Yes: downloaded") %>% select(id)
+
+```
+
+```{r}
+castle_meta1 <- castle %>%  inner_join(downloaded_castle, by = c("id" = "id")) 
+castle_meta2 <- castle %>%  inner_join(downloaded_castle2, by = c("id" = "id")) 
+castle_meta3 <- castle %>%  inner_join(downloaded_castle3, by = c("id" = "id")) 
+```
+
+```{r}
+tim_pics_metadata <- read.csv(file = '/Users/Tim/UML Project Data/tim_pics_metadata.csv')
+```
+
+```{r}
+tim_pics_metadata <- rbind(tim_pics_metadata, horse_meta)
+tim_pics_metadata <- rbind(tim_pics_metadata, sunset_meta)
+tim_pics_metadata <- rbind(tim_pics_metadata, fish_meta1)
+tim_pics_metadata <- rbind(tim_pics_metadata, fish_meta2)
+tim_pics_metadata <- rbind(tim_pics_metadata, fish_meta3)
+tim_pics_metadata <- rbind(tim_pics_metadata, yostmite_meta1)
+tim_pics_metadata <- rbind(tim_pics_metadata, yostmite_meta2)
+tim_pics_metadata <- rbind(tim_pics_metadata, castle_meta1)
+tim_pics_metadata <- rbind(tim_pics_metadata, castle_meta2)
+tim_pics_metadata <- rbind(tim_pics_metadata, castle_meta3)
+```
+
+```{r}
+tim_pics_metadata2 <- rbind(sunset_meta, horse_meta)
+tim_pics_metadata2 <- rbind(tim_pics_metadata2, fish_meta1)
+tim_pics_metadata2 <- rbind(tim_pics_metadata2, fish_meta2)
+tim_pics_metadata2 <- rbind(tim_pics_metadata2, fish_meta3)
+tim_pics_metadata2 <- rbind(tim_pics_metadata2, yostmite_meta1)
+tim_pics_metadata2 <- rbind(tim_pics_metadata2, yostmite_meta2)
+tim_pics_metadata2 <- rbind(tim_pics_metadata2, castle_meta1)
+tim_pics_metadata2 <- rbind(tim_pics_metadata2, castle_meta2)
+tim_pics_metadata2 <- rbind(tim_pics_metadata2, castle_meta3)
+
+```
+
+```{r}
+write.csv(tim_pics_metadata2,"/Users/Tim/UML Project Data/tim_pics_metadata2.csv", row.names = FALSE)
+
+```
+
+
