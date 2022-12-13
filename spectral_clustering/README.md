@@ -5,6 +5,7 @@ We have deployed the algorithm on the localhost for ranking real-time images usi
 
 ## Dependencies
 1. Python 3.7+
+2. Static folder must have the image files.
 
 ## How to run
 1. python feature_extractor.py
