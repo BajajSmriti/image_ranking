@@ -2,7 +2,7 @@
 
 # Abstract 
 
-In the report, we propose and test multiple approaches for unsupervised image ranking. Our solutions are based on image content, their metadata, and the similarities between them. Two of the approaches use supervised as well as unsupervised methods for feature vector extractions and unsupervised algorithms to aid ranking calculations. The goal of these solutions was to take an input image and return the most similar images in our data. We later compare their performances using precision metrics, and it will only get better with more images as that will improve the features of the models and their relative metadata. Finally, we created a model that uses a combination of clustering and metadata to rank the top photos for each topic.
+We propose and test multiple approaches for unsupervised image ranking. Our solutions are based on image content, their metadata, and the similarities between them. Two of the approaches use supervised as well as unsupervised methods for feature vector extractions and unsupervised algorithms to aid ranking calculations. The goal of these solutions was to take an input image and return the most similar images in our data. We later compare their performances using precision metrics, and it will only get better with more images as that will improve the features of the models and their relative metadata. Finally, we created a model that uses a combination of clustering and metadata to rank the top photos for each topic.
 
 # Introduction
 
