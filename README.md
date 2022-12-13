@@ -1,1 +1,11 @@
-# Unsupervised Image Ranking
+## Unsupervised Image Ranking
+
+# Abstract 
+
+In the report, we propose and test multiple approaches for unsupervised image ranking. Our solutions are based on image content, their metadata, and the similarities between them. Two of the approaches use supervised as well as unsupervised methods for feature vector extractions and unsupervised algorithms to aid ranking calculations. The goal of these solutions was to take an input image and return the most similar images in our data. We later compare their performances using precision metrics, and it will only get better with more images as that will improve the features of the models and their relative metadata. Finally, we created a model that uses a combination of clustering and metadata to rank the top photos for each topic.
+
+# Introduction
+
+With the growth of user-generated images on the web, the search results should be optimized such that they are up-to-date, fast, and relevant. One such way to achieve this for search engines is by ranking the images, which is complicated as it requires links, metadata for web pages, and more. (Hörster et al.)
+	With input as a query image or text, we aim to return the most relevant images. The relevance of these images is decided using three different techniques which we will discuss later. Our solution focuses on solving two main problems. The first two address images that are similar both in appearance and content, just like how reverse searching by an image on Google works using both unsupervised and supervised learning. We call the methods used here unsupervised because we do not consider external factors like web links, click rates, or other sources that would tell us about the user's rankings of the images. The second problem ranks images with a common tag or category to return the most relevant images in that tag. Here, the goal is to combine unsupervised machine learning with metadata to return the best images for a given topic, similar to how querying a location or hashtag on a website like Instagram or Flickr works.            	
+	Our solutions are expandable to more input types like synonyms of the categories, and their location but for now, we have kept it simple using images and their respective tags and metadata.
