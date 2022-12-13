@@ -1,0 +1,1 @@
+Enclosed in the metadata_model folder is the code to recreate the model in py, ipynb, and pdf format. The images folder has all 5000 images used to train the spectral clustering model, the csv's of the metadata used in the model, and the rmd file used to scrape the images from Flickr API.
