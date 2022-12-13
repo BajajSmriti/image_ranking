@@ -54,7 +54,6 @@ def calculate_distances(image_test, clusters, centroids):
             content_compare.append(False)
     correct_result = content_compare.count(True)
     precision = correct_result / len(content_compare)
-    # print('Precision:', precision)
     return precision
 
 
